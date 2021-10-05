@@ -22,7 +22,7 @@ public class Main {
     }
     public static Connection connectionM1(){
         try {
-            connection = DriverManager.getConnection("jdbc:sqlite:users.db");
+            connection = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\Evgeniy\\Documents\\Java\\SQL\\HW\\users.db");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
