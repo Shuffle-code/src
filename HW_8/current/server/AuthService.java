@@ -1,7 +1,6 @@
 package HW_8.current.server;
 
 import java.sql.*;
-import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -36,9 +35,6 @@ public class AuthService {
 
             ResultSet rs = statement.executeQuery();
 
-//            PreparedStatement statement = connection.prepareStatement(sql);
-//            ResultSet rs = statement.executeQuery(sql);
-
             if (rs.next()) {
                 System.out.println(rs.getString("name") + " " + rs.getString("login") + " " + rs.getString("password"));
                 return Optional.of(
@@ -46,7 +42,6 @@ public class AuthService {
                                 rs.getString("name"),
                                 rs.getString("login"),
                                 rs.getString("password")
-
                 )
                 );
             }
@@ -57,36 +52,9 @@ public class AuthService {
             close(connection);
         }
 
-
             return Optional.empty();
 
     }
-
-//    private static final List<Entry> entries;
-//
-//    static {
-//        entries = List.of(
-//                new Entry("name1", "nick1", "pass1"),
-//                new Entry("name2", "nick2", "pass2"),
-//                new Entry("name3", "nick3", "pass3")
-//        );
-//    }
-
-//    public Optional<Entry> findUserByLoginAndPassword(String login, String password) {
-//        /**
-//        for (AuthService.Entry entry : entries) {
-//            if (entry.login.equals(login) && entry.password.equals(password)) {
-//                return Optional.of(entry);
-//            }
-//        }
-//
-//        return Optional.empty();
-//         */
-//
-//        return entries.stream()
-//                .filter(entry -> entry.login.equals(login) && entry.password.equals(password))
-//                .findFirst();
-//    }
 
     static class Entry {
         String name;
