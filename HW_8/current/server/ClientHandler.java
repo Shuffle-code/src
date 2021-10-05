@@ -86,7 +86,7 @@ public class ClientHandler {
                 String[] credentials = maybeCredentials.split("\\s");
 
                 Optional<AuthService.Entry> maybeUser = server.getAuthService()
-                        .getNickByLoginAndPass(credentials[1], credentials[2]);
+                        .getNickByLoginAndPass(credentials[1], credentials[2]); // replaced search with database
 
                 if (maybeUser.isPresent()) {
                     AuthService.Entry user = maybeUser.get();
