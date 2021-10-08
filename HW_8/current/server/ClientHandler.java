@@ -2,8 +2,10 @@ package HW_8.current.server;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.List;
 import java.util.Optional;
 
 public class ClientHandler {
@@ -13,6 +15,8 @@ public class ClientHandler {
     private DataOutputStream out;
     private String name;
     private final Socket socket;
+
+    History history = new History();
 
     public ClientHandler(Server server, Socket socket) {
         this.socket = socket;
@@ -94,6 +98,14 @@ public class ClientHandler {
                         name = user.getName();
                         sendMessage("AUTH OK.");
                         sendMessage("Welcome.");
+                        int size = history.readM().size();
+                        if (size < 100){
+                            for (int j = 0; j < size; j++) {
+                                sendMessage(history.readM().get(j));
+                            }
+                        } else for (int i = size; i > 0  ; i--) {
+                            sendMessage(history.readM().get(i - 1));
+                        }
                         server.broadcastMessage(String.format("User[%s] entered chat.", name));
                         server.subscribe(this);
                         return;
@@ -114,6 +126,16 @@ public class ClientHandler {
     public void sendMessage(String outboundMessage) {
         try {
             out.writeUTF(outboundMessage);
+//            history.write(outboundMessage);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendMessageArr(byte[] b) {
+        try {
+            out.write(b);
+//            history.write(outboundMessage);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -126,6 +148,8 @@ public class ClientHandler {
                 break;
             }
             server.broadcastMessage(inboundMessage);
+            history.writeL(inboundMessage);
+
         }
     }
 
