@@ -6,10 +6,11 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class AuthService {
-    private static Connection connection;
+//    private static Connection connection;
 
 
     public static Connection connectionM(){
+        Connection connection = null;
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:users.db");
         } catch (SQLException throwables) {
@@ -36,9 +37,6 @@ public class AuthService {
 
             ResultSet rs = statement.executeQuery();
 
-//            PreparedStatement statement = connection.prepareStatement(sql);
-//            ResultSet rs = statement.executeQuery(sql);
-
             if (rs.next()) {
                 System.out.println(rs.getString("name") + " " + rs.getString("login") + " " + rs.getString("password"));
                 return Optional.of(
@@ -46,7 +44,6 @@ public class AuthService {
                                 rs.getString("name"),
                                 rs.getString("login"),
                                 rs.getString("password")
-
                 )
                 );
             }
@@ -56,10 +53,7 @@ public class AuthService {
         } finally {
             close(connection);
         }
-
-
             return Optional.empty();
-
     }
 
 //    private static final List<Entry> entries;

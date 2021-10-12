@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ClientHandler {
 
@@ -19,13 +21,15 @@ public class ClientHandler {
     History history = new History();
 
     public ClientHandler(Server server, Socket socket) {
+        ExecutorService executor = Executors.newCachedThreadPool();
         this.socket = socket;
         try {
             this.server = server;
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
 
-            new Thread(() -> {
+
+            executor.submit(new Thread(() -> {
                 try {
                     doAuthentication();
                     listenMessages();
@@ -34,11 +38,11 @@ public class ClientHandler {
                 } finally {
                     closeConnection();
                 }
-            })
-                    .start();
+            }));
         } catch (IOException e) {
             throw new RuntimeException("Something went wrong during client establishing...", e);
         }
+        executor.shutdown();
     }
 
     private void closeConnection() {
