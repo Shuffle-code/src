@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 public class History {
     private final File historyFile = new File("./history.txt");
-    private final File historyF = new File("C:\\Users\\Evgeniy\\Documents\\Java\\SQL\\HW\\test.txt");
+    private final File historyF = new File("./test.txt");
 
     public void writeL(String message) throws IOException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(historyFile, true))) {
